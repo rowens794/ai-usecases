@@ -1,118 +1,199 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
+import { useState } from "react";
+import { Bars3Icon } from "@heroicons/react/24/outline";
 
-const inter = Inter({ subsets: ["latin"] });
+import Sidebar from "@/components/Sidebar";
+import MobileSidebar from "@/components/MobileSidebar";
+import Template from "@/components/Slides/template";
+import ImageRecognition from "@/components/Slides/Image-Recognition";
+import SpeechToText from "@/components/Slides/Speech-to-Text";
+import MeetingNotes from "@/components/Slides/Transcription-Summaries";
+import PDFSummary from "@/components/Slides/PDF-Summary";
+import CodeGeneration from "@/components/Slides/Code-Generation";
+import Planning from "@/components/Slides/Planning";
+import OtherModalities from "@/components/Slides/Other-Modalities";
+import DataExtraction from "@/components/Slides/Data-Extraction";
 
-export default function Home() {
+const navigation: {
+  heading: string;
+  items: { name: string; current: boolean; component: any }[];
+}[] = [
+  {
+    heading: "Key Ideas",
+    items: [
+      {
+        name: "Speech Transcription",
+        current: false,
+        component: SpeechToText,
+      },
+      {
+        name: "Meeting Notes",
+        current: false,
+        component: MeetingNotes,
+      },
+      {
+        name: "PDF Summarization",
+        current: false,
+        component: PDFSummary,
+      },
+      {
+        name: "Image Recognition",
+        current: false,
+        component: ImageRecognition,
+      },
+      {
+        name: "Code Generation",
+        current: false,
+        component: CodeGeneration,
+      },
+      {
+        name: "Task Planning",
+        current: false,
+        component: Planning,
+      },
+      {
+        name: "Progress in Other Modalities",
+        current: false,
+        component: OtherModalities,
+      },
+    ],
+  },
+  {
+    heading: "Use Cases",
+    items: [
+      {
+        name: "Data Extraction",
+        current: true,
+        component: DataExtraction,
+      },
+      {
+        name: "Knowledge Retrieval",
+        current: false,
+        component: ImageRecognition,
+      },
+      {
+        name: "Document Summarization",
+        current: false,
+        component: ImageRecognition,
+      },
+      {
+        name: "Meeting Preperation",
+        current: false,
+        component: ImageRecognition,
+      },
+      {
+        name: "Document Drafting",
+        current: false,
+        component: ImageRecognition,
+      },
+      {
+        name: "Email Assistance",
+        current: false,
+        component: ImageRecognition,
+      },
+      {
+        name: "Research Assistant",
+        current: false,
+        component: ImageRecognition,
+      },
+    ],
+  },
+  {
+    heading: "Common Concerns",
+    items: [
+      {
+        name: "Halucinations",
+        current: true,
+        component: ImageRecognition,
+      },
+      {
+        name: "Data Security",
+        current: false,
+        component: ImageRecognition,
+      },
+      {
+        name: "Skill Degradation",
+        current: false,
+        component: ImageRecognition,
+      },
+    ],
+  },
+];
+
+export default function Index() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [currentNavigation, setCurrentNavigation] = useState(
+    "Speech Transcription"
+  );
+  const [currentHeading, setCurrentHeading] = useState("Key Ideas");
+
+  function extractHeadingIndex(
+    data: typeof navigation,
+    currentHeading: string
+  ): number {
+    let headings = data.map((section) => section.heading);
+    return headings.indexOf(currentHeading);
+  }
+
+  function extractItemNameIndex(
+    navigation: any,
+    sectionHeading: string,
+    headingIndex: number
+  ): number {
+    const section = navigation[headingIndex];
+    const sections = section ? section.items.map((item: any) => item.name) : [];
+    return sections.indexOf(sectionHeading);
+  }
+
+  const headingIndex = extractHeadingIndex(navigation, currentHeading);
+  const itemIndex = extractItemNameIndex(
+    navigation,
+    currentNavigation,
+    headingIndex
+  );
+
+  //@ts-ignore
+  const Component = navigation[headingIndex].items[itemIndex].component;
+
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">pages/index.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <>
+      <div className="">
+        {/* Mobile sidebar */}
+        <MobileSidebar
+          sidebarOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
+          navigation={navigation}
+          currentNavigation={currentNavigation}
+          setCurrentNavigation={setCurrentNavigation}
+          setCurrentHeading={setCurrentHeading}
+        />
+
+        {/* Static sidebar for desktop */}
+        <Sidebar
+          navigation={navigation}
+          currentNavigation={currentNavigation}
+          setCurrentNavigation={setCurrentNavigation}
+          setCurrentHeading={setCurrentHeading}
+        />
+
+        <div className="lg:pl-72 h-screen overflow-hidden">
+          <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8 lg:hidden">
+            <button
+              type="button"
+              className="-m-2.5 p-2.5 text-gray-700 lg:hidden"
+              onClick={() => setSidebarOpen(true)}
+            >
+              <span className="sr-only">Open sidebar</span>
+              <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+            </button>
+          </div>
+
+          <main className="h-full w-full ">
+            <>
+              <Component />
+            </>
+          </main>
         </div>
       </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </>
   );
 }
