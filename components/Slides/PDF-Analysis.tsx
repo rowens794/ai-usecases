@@ -8,7 +8,7 @@ type Props = {};
 export default function Index({}: Props) {
   return (
     <div className="w-full h-full bg-slate-200 py-10 px-10 ">
-      <Heading Heading="Data Extraction" />
+      <Heading Heading="Document Analysis" />
       <Body />
     </div>
   );
@@ -36,7 +36,7 @@ const Body = ({}: {}) => {
                 <video
                   width={1080 * 0.8}
                   height={640 * 0.8}
-                  src="https://bu1el6cogjplkojf.public.blob.vercel-storage.com/Data-Extraction-IX01fWNGMwXNA1vPzCHUxRJK67XTgj.mp4"
+                  src="https://bu1el6cogjplkojf.public.blob.vercel-storage.com/gov%20debt-koLJA4iwq4TrkuRZI5FDxt06AbJG5o.mp4"
                   title="YouTube video player"
                   controls
                 ></video>
@@ -48,34 +48,11 @@ const Body = ({}: {}) => {
             <h3 className="text-2xl font-bold text-slate-800">Source Files</h3>
             <div>
               <a
-                className="block text-blue-600 underline w-32"
-                href="/factsheets/03-31-2023.pdf"
+                className="block text-blue-600 underline "
+                href="/Government Debt.pdf"
               >
-                03/31/2023
-              </a>
-              <a
-                className="block text-blue-600 underline w-32"
-                href="/factsheets/06-30-2023.pdf"
-              >
-                06/30/2023
-              </a>
-              <a
-                className="block text-blue-600 underline w-32"
-                href="/factsheets/09-30-2023.pdf"
-              >
-                09/30/2023
-              </a>
-              <a
-                className="block text-blue-600 underline w-32"
-                href="/factsheets/12-31-2023.pdf"
-              >
-                12/31/2023
-              </a>
-              <a
-                className="block text-blue-600 underline w-32"
-                href="/factsheets/03-31-2024.pdf"
-              >
-                03/31/2024
+                Government Debt, Limited Foresight, and Longer-term Interest
+                Rates.pdf
               </a>
             </div>
           </div>

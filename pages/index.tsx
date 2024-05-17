@@ -12,6 +12,8 @@ import CodeGeneration from "@/components/Slides/Code-Generation";
 import Planning from "@/components/Slides/Planning";
 import OtherModalities from "@/components/Slides/Other-Modalities";
 import DataExtraction from "@/components/Slides/Data-Extraction";
+import PDFAnalys from "@/components/Slides/PDF-Analysis";
+import DataProcessing from "@/components/Slides/Data-Processing";
 
 const navigation: {
   heading: string;
@@ -66,14 +68,14 @@ const navigation: {
         component: DataExtraction,
       },
       {
-        name: "Knowledge Retrieval",
+        name: "Document Analysis",
         current: false,
-        component: ImageRecognition,
+        component: PDFAnalys,
       },
       {
-        name: "Document Summarization",
+        name: "Data Processing & Analysis",
         current: false,
-        component: ImageRecognition,
+        component: DataProcessing,
       },
       {
         name: "Meeting Preperation",

@@ -54,7 +54,7 @@ const Body = ({}: {}) => {
   const [loading, setLoading] = useState(false);
 
   const tasks = [
-    "Create a plan to generate an accurate graphic comparing interest rates public equity multiples over the last ten years. ",
+    "Create a plan to generate an accurate graphic comparing interest rates to public equity multiples over the last ten years. ",
   ];
 
   const [task, setTask] = useState(tasks[0]);
